@@ -8,10 +8,20 @@ const server = http.createServer(app);
 
 const io = require('socket.io').listen(server);
 
+const ent = require('ent');
 
 
 
-app.get('/', function(req, res){
+
+app.get('/login', (req, res) => {
+
+	res.render('login.ejs');
+
+})
+
+
+
+app.get('/chat', (req, res) => {
 
   res.render('index.ejs');
 
@@ -28,8 +38,9 @@ io.on('connection', (socket) => {
 	});
 
 
-	socket.on('chat', (msg) => {
+	socket.on('chat', (message) => {
 
+		const msg = ent.encode(message);
 		console.log('New message : ' + msg);
 		io.emit('chat', msg);
 

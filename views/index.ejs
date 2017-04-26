@@ -16,8 +16,12 @@
 	#new{
 
 		width: 700px;
+	}
 
+	div{
 
+		width: 900px;
+		margin: auto;
 	}
 
 
@@ -26,20 +30,16 @@
 
 	<div>
 
-		<ul id="messages">
-			
-		</ul>
-		
+		<ul id="messages"></ul>
 
+		<form action="">
+			
+			<label>Write message <input id="new" type="text"></label>
+			<input id="m" type="submit">
+
+		</form>
 
 	</div>
-
-	<form action="">
-		
-		<label>Write message <input id="new" type="text"></label>
-		<input id="m" type="submit">
-
-	</form>
 
 
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -48,6 +48,9 @@
 
 
 	<script>
+
+
+	var pseudo = prompt("Enter pseudo");
 
 	$(function() {
 
@@ -66,8 +69,9 @@
 
     socket.on('chat', function(msg){
 
-    	$('#messages').append($('<li>').text(msg));
+    	$('#messages').append($('<li>').text('new message from  '+pseudo + ' -> ' + msg));
 
+    
     });
 
 
