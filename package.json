@@ -1,0 +1,22 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "chat en temp reel avec socket",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hduss/chat-nodejs.git"
+  },
+  "author": "hduss",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hduss/chat-nodejs/issues"
+  },
+  "homepage": "https://github.com/hduss/chat-nodejs#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
