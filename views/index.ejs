@@ -2,18 +2,80 @@
 <html>
 <head>
 	<title>Chat</title>
+
+	
 </head>
 <body>
 
+<style type="text/css">
+	
+	li{
+		list-style-type: none;
+	}
+
+	#new{
+
+		width: 700px;
+
+
+	}
+
+
+
+</style>
+
 	<div>
 
-		<p>emplacement message</p>
+		<ul id="messages">
+			
+		</ul>
 		
 
 
 	</div>
 
-	<form></form>
+	<form action="">
+		
+		<label>Write message <input id="new" type="text"></label>
+		<input id="m" type="submit">
+
+	</form>
+
+
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+
+
+
+	<script>
+
+	$(function() {
+
+    	var socket = io();
+
+    $('form').submit(function(){
+
+      socket.emit('chat', $('#new').val());
+
+      $('#new').val('');
+
+      return false;
+
+
+    });
+
+    socket.on('chat', function(msg){
+
+    	$('#messages').append($('<li>').text(msg));
+
+    });
+
+
+  });
+
+
+	</script>
+
 
 </body>
 </html>
