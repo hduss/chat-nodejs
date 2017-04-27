@@ -4,21 +4,29 @@ const express = require('express');
 const app = express();
 const http = require('http')
 const server = http.createServer(app);
+
 // chargement socket
 const io = require('socket.io').listen(server);
 const ent = require('ent');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+
 // fs sert a manipuler les fichier
 const fs = require('fs');
+
 // crypto pour crypter les passwords
 const crypto = require('crypto');
+
 // --> c'est la BDD
 let csv = require('csv-db');
 
 
+// Buffer sert au cryptage
+let Buffer = require('buffer').Buffer;
 
-// use bodyparser middleware pour recuperer les données saisie dans les formulaire html
+
+
+// use bodyparser middleware pour recuperer les données saisie dans les formulaires html
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
@@ -76,6 +84,9 @@ app.post('/registration', (req, res) =>{
 			.update('Love analFisting')
 			.digest('asian');
 
+			let buff = new Buffer(password);
+			console.log(buff);
+
 
 
 		// pui son redirige vers le login
@@ -115,23 +126,22 @@ app.post('/registration', (req, res) =>{
 
 
 
+
+
+
+
+
 app.get('/login', (req, res) => {
 
-	//req.params.login = req.body.username;
-
-
 	res.render('login.ejs');
-
-
-
-
-	/*if (req.body.login  && req.body.password) {
-
-
-	};
-*/
-
 });
+
+
+
+
+
+
+
 
 
 app.post('/login', (req, res) => {
@@ -148,17 +158,28 @@ app.post('/login', (req, res) => {
 
 	csvDb.get().then((data) => {
 
+
 	console.log(login);
 	console.log(data);
 
 	for ( let i = 0; i < data.length; i++) {
 
 		console.log(i);
-		console.log(data[i].pseudo);
+		console.log(data[i].password);
 
 		if (login === data[i].pseudo) {
 
-			console.log('encul22222');
+			let hashPass2 = crypto.createHmac('sha256', password)
+				.update('Love analFisting')
+				.digest('asian');
+
+			console.log(hashPass2);
+
+				if (hashPass2 === data[i].password) {
+
+					console.log('FISTFUCKIIING');
+				};
+
 		};
 
 
