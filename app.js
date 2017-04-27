@@ -115,19 +115,10 @@ app.post('/registration', (req, res) =>{
 
 
 
-
-
-
-
 app.get('/login', (req, res) => {
 
 	res.render('login.ejs');
 });
-
-
-
-
-
 
 
 
@@ -157,11 +148,10 @@ app.post('/login', (req, res) => {
 
 		if (login === data[i].pseudo) {
 
-
-
-				if (hashPass2 === data[i].password) {
+				if (password === data[i].password) {
 
 					console.log('FISTFUCKIIING');
+					res.redirect('/chat');
 				};
 
 		};
@@ -170,18 +160,6 @@ app.post('/login', (req, res) => {
 	};
 
 
-
-/*
-	if (login) {
-
-			console.log('ENCUL2222222');
-	};
-
-
-}, (err) => {
-
-	console.log(err);
-*/
 });
 
 
@@ -191,19 +169,6 @@ app.post('/login', (req, res) => {
 app.get('/chat', (req, res) => {
 
 	res.render('index.ejs');
-
-	fs.readFile('./data/db.json', (err, data) => {
-
-	  if (err) throw err;
-
-	  console.log(data);
-
-
-
-	});
-
-
-
 
 });
 
