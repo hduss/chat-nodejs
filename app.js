@@ -6,25 +6,19 @@ const http = require('http')
 const server = http.createServer(app);
 // chargement socket
 const io = require('socket.io').listen(server);
-
-
 const ent = require('ent');
-
 const bodyParser = require('body-parser');
 const session = require('express-session');
-
-
 // fs sert a manipuler les fichier
 const fs = require('fs');
-
+// crypto pour crypter les passwords
+const crypto = require('crypto');
+// --> c'est la BDD
 let csv = require('csv-db');
 
-const crypto = require('crypto');
 
 
-
-
-// use bodyparser middleware
+// use bodyparser middleware pour recuperer les données saisie dans les formulaire html
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
@@ -64,8 +58,6 @@ app.get('/registration',(req, res) => {
 app.post('/registration', (req, res) =>{
 
 
-
-
 	// si les champs sont bien remplis
 	if (req.body.login && req.body.password) {
 
@@ -74,29 +66,20 @@ app.post('/registration', (req, res) =>{
 		req.session.password = req.body.password;
 
 
-		const login = req.session.username;
-		const password = req.session.password;
+		let login = req.session.username;
+		let password = req.session.password;
 
 
-		const hashPass = crypto.createHmac('sha256', password)
+
+		// on crypte le password du user
+		let hashPass = crypto.createHmac('sha256', password)
 			.update('Love analFisting')
 			.digest('asian');
-
-		console.log(hashPass);
-
 
 
 
 		// pui son redirige vers le login
 		res.redirect('/login');
-
-
-
-
-
-		console.log(login);
-		console.log(hashPass);
-
 
 
 
@@ -117,9 +100,14 @@ app.post('/registration', (req, res) =>{
 
 				console.log('User added !');
 
-				console.log(data);
+
 			});
-		};
+
+
+		}else{
+
+
+		}
 	};
 
 });
@@ -135,8 +123,65 @@ app.get('/login', (req, res) => {
 	res.render('login.ejs');
 
 
+
+
+	/*if (req.body.login  && req.body.password) {
+
+
+	};
+*/
+
 });
 
+
+app.post('/login', (req, res) => {
+
+
+	req.session.username = req.body.login;
+	req.session.password = req.body.password;
+
+
+	let login = req.session.username;
+	let password = req.session.password;
+
+
+
+	csvDb.get().then((data) => {
+
+	console.log(login);
+	console.log(data);
+
+	for ( let i = 0; i < data.length; i++) {
+
+		console.log(i);
+		console.log(data[i].pseudo);
+
+		if (login === data[i].pseudo) {
+
+			console.log('encul22222');
+		};
+
+
+	};
+
+
+
+/*
+	if (login) {
+
+			console.log('ENCUL2222222');
+	};
+
+
+}, (err) => {
+
+	console.log(err);
+*/
+});
+
+
+
+});
 
 app.get('/chat', (req, res) => {
 
@@ -165,6 +210,11 @@ app.use(function(req, res, next){
     res.send(404, 'Page introuvable !');
 
 });
+
+
+
+//+---------------------------------SOCKET---------------------------------------+
+
 
 
 io.on('connection', (socket) => {
