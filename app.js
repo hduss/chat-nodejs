@@ -21,10 +21,6 @@ const crypto = require('crypto');
 let csv = require('csv-db');
 
 
-// Buffer sert au cryptage
-let Buffer = require('buffer').Buffer;
-
-
 
 // use bodyparser middleware pour recuperer les données saisie dans les formulaires html
 app.use(bodyParser.json());
@@ -79,32 +75,19 @@ app.post('/registration', (req, res) =>{
 
 
 
-		// on crypte le password du user
-		let hashPass = crypto.createHmac('sha256', password)
-			.update('Love analFisting')
-			.digest('asian');
-
-			let buff = new Buffer(password);
-			console.log(buff);
-
-
-
-		// pui son redirige vers le login
-		res.redirect('/login');
-
-
-
 
 		// si le mot de pass est > a 8 caracteres
-		if (password.length >= 8) {
+		if (password.length >= 8 || !password || !login) {
+
 
 			// alors on cree un object
 			const user = { 
 
 				pseudo: login,
-				password: hashPass
+				password: password
 
 			};
+
 
 			// on insert les users dans la csvDb
 			csvDb.insert(user).then((data) => {
@@ -114,8 +97,13 @@ app.post('/registration', (req, res) =>{
 
 			});
 
+			// puis on redirige vers le login
+			res.redirect('/login');
+
 
 		}else{
+
+			res.redirect('/registration');
 
 
 		}
@@ -169,11 +157,7 @@ app.post('/login', (req, res) => {
 
 		if (login === data[i].pseudo) {
 
-			let hashPass2 = crypto.createHmac('sha256', password)
-				.update('Love analFisting')
-				.digest('asian');
 
-			console.log(hashPass2);
 
 				if (hashPass2 === data[i].password) {
 
