@@ -17,6 +17,10 @@ const session = require('express-session');
 // fs sert a manipuler les fichier
 const fs = require('fs');
 
+let csv = require('csv-db');
+
+const crypto = require('crypto');
+
 
 
 
@@ -32,6 +36,21 @@ app.use(session({secret:'secret', cookie: { maxAge: 60000 }}));
 
 
 
+// on verifie si le fichier existe
+fs.exists('./data/db.csv', (exists) => {
+
+    if(!exists) {
+
+    	//Sinon on le crée
+        fs.writeFileSync('./data/db.csv');
+    }
+});
+
+// on instancie une nouvelle csvDb, son emplacement et ses tables
+const csvDb = new csv('./data/db.csv', ['id', 'pseudo', 'password']);
+
+
+
 app.get('/registration',(req, res) => {
 
 
@@ -44,22 +63,63 @@ app.get('/registration',(req, res) => {
 // une fois le formulaire soumis
 app.post('/registration', (req, res) =>{
 
-	// si les champs sont bine remplis
+
+
+
+	// si les champs sont bien remplis
 	if (req.body.login && req.body.password) {
 
 		// on rentre les données dans des variables de session
 		req.session.username = req.body.login;
 		req.session.password = req.body.password;
 
+
 		const login = req.session.username;
 		const password = req.session.password;
+
+
+		const hashPass = crypto.createHmac('sha256', password)
+			.update('Love analFisting')
+			.digest('asian');
+
+		console.log(hashPass);
+
+
+
 
 		// pui son redirige vers le login
 		res.redirect('/login');
 
-		console.log(login);
-		console.log(password);
 
+
+
+
+		console.log(login);
+		console.log(hashPass);
+
+
+
+
+
+		// si le mot de pass est > a 8 caracteres
+		if (password.length >= 8) {
+
+			// alors on cree un object
+			const user = { 
+
+				pseudo: login,
+				password: hashPass
+
+			};
+
+			// on insert les users dans la csvDb
+			csvDb.insert(user).then((data) => {
+
+				console.log('User added !');
+
+				console.log(data);
+			});
+		};
 	};
 
 });
@@ -69,15 +129,10 @@ app.post('/registration', (req, res) =>{
 
 app.get('/login', (req, res) => {
 
-	req.params.login = req.body.username;
+	//req.params.login = req.body.username;
 
 
-
-	res.render('login.ejs'/*, { 
-
-		login: req.session.login,
-  		pass: req.session.password
-  }*/);
+	res.render('login.ejs');
 
 
 });
@@ -85,9 +140,19 @@ app.get('/login', (req, res) => {
 
 app.get('/chat', (req, res) => {
 
-
-
 	res.render('index.ejs');
+
+	fs.readFile('./data/db.json', (err, data) => {
+
+	  if (err) throw err;
+
+	  console.log(data);
+
+
+
+	});
+
+
 
 
 });
