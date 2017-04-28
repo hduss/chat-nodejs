@@ -4,27 +4,24 @@ class User {
 
     constructor(login, password) {
 
-        this.login = login;
-        this.password = password;
+        this.login = req.body.login;
+        this.password = req.body.password;
 
     }
-
+/*
     initSession() {
 
-        req.session.username = req.body.login;
-        req.session.password = req.body.password;
+        req.session.username = 
+        req.session.password = 
 
         let login = req.session.username;
         let password = req.session.password;
     }
 
-
-
-
-
+*/
     getLogin() {
 
-        reutn this.login;
+        return this.login;
     }
 
     setLogin(login) {
@@ -36,7 +33,7 @@ class User {
 
     getPAssword() {
 
-        reutn this.password;
+        return this.password;
     }
 
     setPassword(password) {
@@ -47,4 +44,4 @@ class User {
 
 }
 
-exports.module = Connected;
+exports.module = User;

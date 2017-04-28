@@ -20,7 +20,7 @@ const crypto = require('crypto');
 // --> c'est la BDD
 let csv = require('csv-db');
 
-//const User = require('/User');
+const User = require('./User');
 
 
 
@@ -60,6 +60,8 @@ const csvDb = new csv('./data/db.csv', ['id', 'pseudo', 'password']);
 app.get('/registration',(req, res) => {
 
 
+
+
 	res.render('registration.ejs');
 
 
@@ -68,6 +70,10 @@ app.get('/registration',(req, res) => {
 
 // une fois le formulaire soumis
 app.post('/registration', (req, res) =>{
+
+		let user = new User();
+
+		console.log(user);
 
 
 	// si les champs sont bien remplis
