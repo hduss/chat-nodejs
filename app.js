@@ -90,11 +90,9 @@ app.post('/registration', (req, res) =>{
 	if (req.body.login && req.body.password) {
 
 		// on rentre les données dans des variables de session
-<<<<<<< HEAD
 		req.session.username = ent(req.body.login);
 		req.session.password = ent(req.body.password);
-=======
->>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc
+
 
 
 
@@ -115,11 +113,8 @@ app.post('/registration', (req, res) =>{
 			// on insert les users dans la csvDb
 			csvDb.insert(user).then((data) => {
 
-<<<<<<< HEAD
 				console.log('New user added : ' + login);
-=======
-				console.log('User.js added : ' + login);
->>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc
+
 
 
 			});
@@ -199,11 +194,7 @@ app.post('/login', (req, res) => {
 		if (login === data[i].pseudo) {
 
 
-<<<<<<< HEAD
-					console.log('FISTFUCKIIING');
-					res.redirect('/chat');
-				};
-=======
+
 			// on fait la meme chose avec le password
 			if (password === data[i].password) {
 
@@ -215,7 +206,6 @@ app.post('/login', (req, res) => {
 
 			};
 
->>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc
 		};
 
 	};
@@ -269,24 +259,16 @@ app.use(function(req, res, next){
 });
 
 
-<<<<<<< HEAD
 
-//+----------------------SOCKET------------------------------------++
-=======
 //+---------------------------------SOCKET---------------------------------------+
->>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc
 
 
 
 io.on('connection', (socket) => {
 
-<<<<<<< HEAD
+
 	console.log('User connected');
-=======
 
-
-	console.log('user connected ! ');
->>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc
 
 	socket.on('disconnect', () => {
 
@@ -296,12 +278,10 @@ io.on('connection', (socket) => {
 	// on ecoute l'evenement chat
 	socket.on('chat', (message) => {
 
-<<<<<<< HEAD
 		let msg = ent.encode(message);
-=======
+
 		// on recupere le message envoyé, on l'encode
-		const msg = ent.encode(message);
->>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc
+
 		console.log('New message from :' + msg);
 
 		// puis on le renvoi a l'index.ejs
