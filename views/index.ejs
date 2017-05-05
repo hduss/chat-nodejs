@@ -24,6 +24,19 @@
 		margin: auto;
 	}
 
+	li{
+
+		border: 1px solid #89C4F4;
+		border-radius: 4px;
+		margin: 10px;
+		padding-left: 15px;
+
+	}
+	 li:hover{
+
+	 	background-color: #DCC6E0;
+	 }
+
 
 
 </style>
@@ -34,14 +47,19 @@
 
 	<ul id="messages"></ul>
 
-	<form action="">
+	<form action="" id="formChat">
 			
 		<label>Write message <input id="new" type="text"></label>
 		<input id="m" type="submit">
 
 	</form>
 
+	<form action="" method="post">
+		<label for="submit"><input type="submit" value="Logout" name="submit"></label>
+	</form>
 </div>
+
+
 
 
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -52,14 +70,17 @@
 
 
 
+<<<<<<< HEAD
 	
 
 
+=======
+>>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc
 	$(function() {
 
 	    var socket = io();
 
-		$('form').submit(function(){
+		$('#formChat').submit(function(){
 
 			socket.emit('chat', $('#new').val());
 
@@ -67,16 +88,26 @@
 
 		    return false;
 
-
 		});
 
 		socket.on('chat', function(msg){
 
+<<<<<<< HEAD
 			$('#messages').append($('<li>').text('new message => ' + msg));
+=======
+			$('#messages').append($('<li>').text('new message from  => ' + msg));
+>>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc
 
 		});
 
 	});
+
+	if ($('#messages').children() > 1 ) {
+
+		console.log('azertyuik');
+
+	}
+
 
 
 
