@@ -22,6 +22,9 @@ let csv = require('csv-db');
 
 
 
+
+
+
 // use bodyparser middleware pour recuperer les données saisie dans les formulaires html
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -49,6 +52,13 @@ const csvDb = new csv('./data/db.csv', ['id', 'pseudo', 'password']);
 
 
 
+
+
+
+
+//--------------------REGISTRATION-------------------------------------++
+
+
 app.get('/registration',(req, res) => {
 
 
@@ -66,8 +76,8 @@ app.post('/registration', (req, res) =>{
 	if (req.body.login && req.body.password) {
 
 		// on rentre les données dans des variables de session
-		req.session.username = req.body.login;
-		req.session.password = req.body.password;
+		req.session.username = ent(req.body.login);
+		req.session.password = ent(req.body.password);
 
 
 		let login = req.session.username;
@@ -92,7 +102,7 @@ app.post('/registration', (req, res) =>{
 			// on insert les users dans la csvDb
 			csvDb.insert(user).then((data) => {
 
-				console.log('User added !');
+				console.log('New user added : ' + login);
 
 
 			});
@@ -113,6 +123,11 @@ app.post('/registration', (req, res) =>{
 
 
 
+
+
+
+
+//-------------------------LOGIN-------------------------------------++
 
 
 app.get('/login', (req, res) => {
@@ -153,20 +168,34 @@ app.post('/login', (req, res) => {
 					console.log('FISTFUCKIIING');
 					res.redirect('/chat');
 				};
-
 		};
-
 
 	};
 
-
 });
 
 
 
 });
+
+
+//-------------------------CHAT-------------------------------------++
+
+
 
 app.get('/chat', (req, res) => {
+
+	req.session.username = req.body.login;
+	req.session.password = req.body.password;
+
+
+	let login = req.session.username;
+	let password = req.session.password;
+
+	if (!login && !password) {
+
+		res.redirect('/registration');
+	};
 
 	res.render('index.ejs');
 
@@ -183,23 +212,23 @@ app.use(function(req, res, next){
 
 
 
-//+---------------------------------SOCKET---------------------------------------+
+//+----------------------SOCKET------------------------------------++
 
 
 
 io.on('connection', (socket) => {
 
-	console.log('user connected');
+	console.log('User connected');
 
 	socket.on('disconnect', () => {
 
-		console.log('user disconnected ! ');
+		console.log('user disconnected !');
 	});
 
 
 	socket.on('chat', (message) => {
 
-		const msg = ent.encode(message);
+		let msg = ent.encode(message);
 		console.log('New message from :' + msg);
 		io.emit('chat', msg);
 

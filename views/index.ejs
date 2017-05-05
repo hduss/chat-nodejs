@@ -52,8 +52,7 @@
 
 
 
-	var pseudo = prompt("Enter pseudo");
-
+	
 
 
 	$(function() {
@@ -73,7 +72,7 @@
 
 		socket.on('chat', function(msg){
 
-			$('#messages').append($('<li>').text('new message from ' + pseudo + ' => ' + msg));
+			$('#messages').append($('<li>').text('new message => ' + msg));
 
 		});
 
