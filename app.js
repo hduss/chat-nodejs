@@ -5,6 +5,11 @@ const app = express();
 const http = require('http')
 const server = http.createServer(app);
 
+const Mongoose = require('./mongoose');
+const mongoose = require('mongoose');
+const db = mongoose.connection;
+
+
 // chargement socket
 const io = require('socket.io').listen(server);
 const ent = require('ent');
@@ -20,16 +25,25 @@ const crypto = require('crypto');
 // --> c'est la BDD
 let csv = require('csv-db');
 
-const User = require('./User');
+//const User = require('./User');
+
+
+
+mongoose.connect('mongodb://127.0.0.1:27017/Chat');
+
+db.on('open', () => {
+
+	console.log('DB Connected !');
+
+
+});
 
 
 
 
 
 
-
-
-// use bodyparser middleware pour recuperer les données saisie dans les formulaires html
+// use bodyparser middleware pour recuperer les données saisies dans les formulaires html
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
@@ -69,9 +83,6 @@ const csvDb = new csv('./data/db.csv', ['id', 'pseudo', 'password']);
 
 app.get('/registration',(req, res) => {
 
-
-
-
 	res.render('registration.ejs');
 
 
@@ -81,18 +92,20 @@ app.get('/registration',(req, res) => {
 // une fois le formulaire soumis
 app.post('/registration', (req, res) =>{
 
-		let user = new User();
+		//let user = new User();
 
-		console.log(user);
+
 
 
 	// si les champs sont bien remplis
 	if (req.body.login && req.body.password) {
 
 		// on rentre les données dans des variables de session
-		req.session.username = ent(req.body.login);
-		req.session.password = ent(req.body.password);
+		req.session.username = req.body.login;
+		req.session.password = req.body.password;
 
+		let login = req.session.username;
+    	let password = req.session.password;
 
 
 
@@ -150,7 +163,7 @@ app.get('/login', (req, res) => {
 
     console.log(login);
 
-	if(!login) {
+	if(login) {
 
         console.log(login);
 
@@ -239,6 +252,8 @@ app.get('/chat', (req, res) => {
 
 });
 
+
+/*
 app.post('/chat', (req, res) => {
 
 	res.redirect('/registration');
@@ -248,7 +263,7 @@ app.post('/chat', (req, res) => {
 	//res.redirect('/registration');
 
 });
-
+*/
 //renvoi une erreur 404 si url est mauvaise
 app.use(function(req, res, next){
 
@@ -292,4 +307,4 @@ io.on('connection', (socket) => {
 
 
 
-server.listen(port = 8080, () => console.log('User.js on port ' + port + ' ! '));
+server.listen(port = 8080, () => console.log('connected on port ' + port + ' ! '));

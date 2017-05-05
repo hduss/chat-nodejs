@@ -1,13 +1,16 @@
 id;pseudo;password;
 id;pseudo;password;
 id;pseudo;password;
-<<<<<<< HEAD
+id;pseudo;password;
+id;pseudo;password;
+id;pseudo;password;
+<<<<<<< HEAD;;;
 id,pseudo,password;;;
 ;;;
 1;bibi;vanessa317251;
 2;theo;123456789;
 3;maxime;maxime123;
-=======
+=======;;;
 id;pseudo;password;
 id;pseudo;password;
 id;pseudo;password;
@@ -29,4 +32,8 @@ id,pseudo,password;;;
 9;maxime;123456789;
 10;maxime;123456789;
 11;maxime;123456789;
->>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc
+>>>>>>> 958e8055ae5239f21e3e1e91c9f87f1b4222dedc;;;
+;;;
+12;theo;delmasdelmas;
+13;theo;delmasdelmas;
+14;theo;delmasdelmas;
